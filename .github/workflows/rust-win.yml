@@ -53,7 +53,7 @@ jobs:
           mkdir C:/workspace/src
           git clone  https://github.com/ros2-rust/ros2_rust.git C:/workspace/src/ros2_rust
       - name: Import other rolling ROS rust repos
-        run: pixi run --manifest-path C:\pixi_ws\pixi.toml vcs import C:/workspace/src < C:/workspace/src/ros2_rust/ros2_rust_rolling.repos
+        run: pixi run --manifest-path C:\pixi_ws\pixi.toml vcs import C:/workspace/src --input C:/workspace/src/ros2_rust/ros2_rust_rolling.repos
       - name: Build the rust package
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
