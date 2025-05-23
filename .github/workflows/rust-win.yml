@@ -50,7 +50,10 @@ jobs:
           pixi add --pypi "colcon-cargo@git+https://github.com/colcon/colcon-cargo.git" --manifest-path C:\pixi_ws\pixi.toml
       - name: Get ros2-Rust in a different workspace path
         run: |
-          mkdir C:/workspace/src
+          cd C:/
+          mkdir workspace
+          cd workspace
+          mkdir src
           git clone clone https://github.com/ros2-rust/ros2_rust.git C:/workspace/src/ros2_rust
       - name: Import other rolling ROS rust repos
         run: vcs import C:/workspace/src < C:/workspace/src/ros2_rust/ros2_rust_rolling.repos
