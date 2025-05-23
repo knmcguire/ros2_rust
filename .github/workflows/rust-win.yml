@@ -34,7 +34,7 @@ jobs:
           manifest-path: C:/pixi_ws/pixi.toml
       - name: Get prebuild ROS files and unzip
         run: |
-          irm https://ci.ros2.org/view/packaging/job/packaging_windows/lastSuccessfulBuild/artifact/ws/ros2-package-windows-AMD64.zip --Outfile ros2-package-windows-AMD64.zip
+          irm https://ci.ros2.org/view/packaging/job/packaging_windows/lastSuccessfulBuild/artifact/ws/ros2-package-windows-AMD64.zip -Outfile ros2-package-windows-AMD64.zip
           Expand-Archive -Path ros2-package-windows-AMD64.zip -DestinationPath C:/pixi_ws\ros2_rolling
       - name: Install Rust ROS prerequisites
         run: pixi add libclang --manifest-path C:\pixi_ws\pixi.toml
