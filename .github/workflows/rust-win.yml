@@ -7,8 +7,8 @@ on:
   #  branches: [ main ]
   #schedule:
   #  - cron: '22 2 * * 2'
-  branches:
-    - win-ci
+  push:
+    branches: [ win-ci]
   workflow_dispatch:
 
 env:
