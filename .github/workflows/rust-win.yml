@@ -60,5 +60,5 @@ jobs:
           call C:\pixi_ws\ros2_rolling\setup.bat
           pixi run --manifest-path C:\pixi_ws\pixi.toml colcon build
         working-directory: C:\workspace
-        shell: bash
+        shell: cmd
         
