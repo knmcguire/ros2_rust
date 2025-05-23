@@ -21,9 +21,9 @@ jobs:
       LIBCLANG_PATH: C:\pixi_ws\.pixi\envs\default\Library\bin
     steps:
       - name: Install MSVC 2019
-        run: |
-          powershell -noexit irm https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile vs_buildtools_2019.exe
-          .\vs_buildtools_2019.exe --quiet --wait --norestart --add Microsoft.Component.MSBuild --add Microsoft.Net.Component.4.6.1.TargetingPack --add Microsoft.Net.Component.4.8.SDK --add Microsoft.VisualStudio.Component.CoreBuildTools --add Microsoft.VisualStudio.Component.Roslyn.Compiler --add Microsoft.VisualStudio.Component.TextTemplating --add Microsoft.VisualStudio.Component.VC.CLI.Support --add Microsoft.VisualStudio.Component.VC.CoreBuildTools --add Microsoft.VisualStudio.Component.VC.CoreIde --add Microsoft.VisualStudio.Component.VC.Redist.14.Latest --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows10SDK --add Microsoft.VisualStudio.Component.Windows10SDK.19041 --add Microsoft.VisualStudio.ComponentGroup.NativeDesktop.Core --add Microsoft.VisualStudio.Workload.MSBuildTools --add Microsoft.VisualStudio.Workload.VCTools
+        uses: microsoft/setup-msbuild@v2
+        with:
+          vs-version: '[16.0,17.0)' 
       - name: Make new directory for pixi environment
         run: mkdir C:\pixi_ws\
       - name: Get pixi toml file
@@ -56,7 +56,6 @@ jobs:
         run: pixi run --manifest-path C:\pixi_ws\pixi.toml vcs import C:/workspace/src --input C:/workspace/src/ros2_rust/ros2_rust_rolling.repos
       - name: Build the rust package
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
           call C:\pixi_ws\ros2-windows\setup.bat
           pixi run --manifest-path C:\pixi_ws\pixi.toml colcon build
         working-directory: C:\workspace
