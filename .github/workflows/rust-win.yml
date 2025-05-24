@@ -47,6 +47,9 @@ jobs:
         run: |
           pixi add --pypi "colcon-ros-cargo@git+https://github.com/colcon/colcon-ros-cargo.git" --manifest-path C:\pixi_ws\pixi.toml
           pixi add --pypi "colcon-cargo@git+https://github.com/colcon/colcon-cargo.git" --manifest-path C:\pixi_ws\pixi.toml
+      - name: List files in ros2_rust directory
+        run: dir /s /b C:\workspace\src\ros2_rust
+        shell: cmd
       - name: Get ros2-Rust in a different workspace path
         run: |
           mkdir C:/workspace/src
