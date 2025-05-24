@@ -19,7 +19,6 @@ jobs:
     runs-on: windows-latest
     env:
       LIBCLANG_PATH: C:\pixi_ws\.pixi\envs\default\Library\bin
-      RUST_BACKTRACE: 1
       RUST_LOG: debug
     steps:
       - uses: actions/checkout@v4
