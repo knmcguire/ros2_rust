@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          path: workspace/src/ros2_rust
+          path: C:/workspace/src/ros2_rust
       - uses: ilammy/msvc-dev-cmd@v1.4.1
       - name: Make new directory for pixi environment
         run: mkdir C:\pixi_ws\
@@ -51,12 +51,12 @@ jobs:
           pixi add --pypi "colcon-ros-cargo@git+https://github.com/colcon/colcon-ros-cargo.git" --manifest-path C:\pixi_ws\pixi.toml
           pixi add --pypi "colcon-cargo@git+https://github.com/colcon/colcon-cargo.git" --manifest-path C:\pixi_ws\pixi.toml
       - name: Import other rolling ROS rust repos
-        run: pixi run --manifest-path C:\pixi_ws\pixi.toml vcs import workspace/src --input workspace/src/ros2_rust/ros2_rust_rolling.repos
+        run: pixi run --manifest-path C:\pixi_ws\pixi.toml vcs import C:/workspace/src --input C:/C:/workspace/src/ros2_rust/ros2_rust_rolling.repos
       - name: Build the rust package
         env:
           BINDGEN_EXTRA_CLANG_ARGS: -D_Check_return_= # to handle the clang error with the windows specific bindgen error
         run: |
           call C:\pixi_ws\ros2-windows\setup.bat
           pixi run --manifest-path C:\pixi_ws\pixi.toml colcon build
-        working-directory: workspace
+        working-directory: C:/workspace
         shell: cmd
