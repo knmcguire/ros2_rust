@@ -23,11 +23,11 @@ jobs:
       RUST_LOG: debug
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: C:/workspace/src/ros2_rust
       - uses: ilammy/msvc-dev-cmd@v1.4.1
-      - name: Make new directory for pixi environment
-        run: mkdir C:\pixi_ws\
+      - name: Make new directory for pixi environment and copy ros2_rust repo in there
+        run: |
+          mkdir C:\pixi_ws\
+          xcopy /E /I /Y "%GITHUB_WORKSPACE%" "C:\pixi_ws\ros2_rust"
       - name: Get pixi toml file
         run: irm https://raw.githubusercontent.com/ros2/ros2/refs/heads/rolling/pixi.toml -OutFile C:\pixi_ws\pixi.toml
       - name: Setup Pixi environment
