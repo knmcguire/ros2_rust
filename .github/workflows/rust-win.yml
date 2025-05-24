@@ -23,6 +23,9 @@ jobs:
       RUST_LOG: debug
     steps:
       - uses: ilammy/msvc-dev-cmd@v1.4.1
+      - name: List files in current ros2_rust directory
+        run: dir /s /b D:/a/ros2_rust/ros2_rust
+        shell: cmd
       - name: Make new directory for pixi environment
         run: mkdir C:\pixi_ws\
       - name: Get pixi toml file
@@ -47,9 +50,6 @@ jobs:
         run: |
           pixi add --pypi "colcon-ros-cargo@git+https://github.com/colcon/colcon-ros-cargo.git" --manifest-path C:\pixi_ws\pixi.toml
           pixi add --pypi "colcon-cargo@git+https://github.com/colcon/colcon-cargo.git" --manifest-path C:\pixi_ws\pixi.toml
-      - name: List files in ros2_rust directory
-        run: dir /s /b C:\workspace\src\ros2_rust
-        shell: cmd
       - name: Get ros2-Rust in a different workspace path
         run: |
           mkdir C:/workspace/src
