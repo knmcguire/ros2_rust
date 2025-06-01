@@ -2,14 +2,8 @@ name: Rust ROS 2 Windows build
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  schedule:
-    # Run the CI at 02:22 UTC every Tuesday
-    # We pick an arbitrary time outside of most of the world's work hours
-    # to minimize the likelihood of running alongside a heavy workload.
-    - cron: '22 2 * * 2'
+    branches: [ win-ci-merge-test]
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
@@ -47,7 +41,6 @@ jobs:
         #     * Libclang has to be added (from the ros2_rust instructions) and the dll has to be renamed
         #     * colcon-ros-cargo and colcon-cargo have to be added as PyPI packages
         run: |
-          pixi add --manifest-path C:\pixi_ws\pixi.toml rust 
           pixi add libclang --manifest-path C:\pixi_ws\pixi.toml
           $src = "C:\pixi_ws\.pixi\envs\default\Library\bin\libclang-13.dll"
           $dst = "C:\pixi_ws\.pixi\envs\default\Library\bin\libclang.dll"
