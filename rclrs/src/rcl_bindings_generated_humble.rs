@@ -525,7 +525,17 @@ extern "C" {
     pub fn rcutils_steady_time_now(now: *mut rcutils_time_point_value_t) -> rcutils_ret_t;
 }
 extern "C" {
+    pub fn rcutils_raw_steady_time_now(now: *mut rcutils_time_point_value_t) -> rcutils_ret_t;
+}
+extern "C" {
     pub fn rcutils_time_point_value_as_nanoseconds_string(
+        time_point: *const rcutils_time_point_value_t,
+        str_: *mut ::std::os::raw::c_char,
+        str_size: usize,
+    ) -> rcutils_ret_t;
+}
+extern "C" {
+    pub fn rcutils_time_point_value_as_date_string(
         time_point: *const rcutils_time_point_value_t,
         str_: *mut ::std::os::raw::c_char,
         str_size: usize,
