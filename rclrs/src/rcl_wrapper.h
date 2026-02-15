@@ -6,6 +6,7 @@
 #include <rcl/logging.h>
 #include <rcl/logging_rosout.h>
 #include <rmw/types.h>
+#include <rmw/service_endpoint_info.h>
 #include <rosidl_typesupport_introspection_c/field_types.h>
 #include <rosidl_typesupport_introspection_c/message_introspection.h>
 
