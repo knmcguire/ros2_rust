@@ -60,13 +60,11 @@ jobs:
 
     - name: Update environment
       run: |
-        apt-get update && apt-get upgrade -y
-        # Ensure all file system operations are complete
+        apt-get update
+        # Force upgrade of ALL ros-rolling packages, not just what apt thinks needs updating
+        apt-get install --only-upgrade -y 'ros-rolling-*'
         sync
-        # Clear package cache and rebuild shared library cache
-        apt-get clean
         ldconfig
-        # Give file system a moment to stabilize
         sleep 2
 
     - name: Setup Rust
