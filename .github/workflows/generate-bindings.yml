@@ -61,11 +61,15 @@ jobs:
     - name: Update environment
       run: |
         apt-get update
-        # Force upgrade of ALL ros-rolling packages, not just what apt thinks needs updating
-        apt-get install --only-upgrade -y 'ros-rolling-*'
+        # Force upgrade ALL ros packages for the distribution
+        apt-get install --only-upgrade -y 'ros-${{ matrix.ros_distribution }}-*'
         sync
         ldconfig
-        sleep 2
+        sleep 1
+        
+        # Verify we have recent packages by checking upgrade date
+        echo "=== Recently Updated ROS Packages ==="
+        dpkg -l | grep "^ii.*ros-${{ matrix.ros_distribution }}" | head -20
 
     - name: Setup Rust
       uses: dtolnay/rust-toolchain@1.85
