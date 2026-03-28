@@ -59,7 +59,15 @@ jobs:
         use-ros2-testing: ${{ matrix.ros_distribution == 'rolling' }}
 
     - name: Update environment
-      run: apt-get update && apt-get upgrade -y
+      run: |
+        apt-get update && apt-get upgrade -y
+        # Ensure all file system operations are complete
+        sync
+        # Clear package cache and rebuild shared library cache
+        apt-get clean
+        ldconfig
+        # Give file system a moment to stabilize
+        sleep 2
 
     - name: Setup Rust
       uses: dtolnay/rust-toolchain@1.85
@@ -87,8 +95,40 @@ jobs:
     - name: Generate bindings
       run: |
         . /opt/ros/${{ matrix.ros_distribution }}/setup.sh
+        
+        # Verify critical headers exist before running bindgen
+        echo "Verifying RMW headers..."
+        if [ ! -f "/opt/ros/${{ matrix.ros_distribution }}/include/rmw/rmw/service_endpoint_info.h" ]; then
+          echo "ERROR: service_endpoint_info.h not found!"
+          find /opt/ros/${{ matrix.ros_distribution }}/include/rmw -name "*.h" | head -20
+          exit 1
+        fi
+        
+        # Check rmw version
+        dpkg -l | grep ros-${{ matrix.ros_distribution }}-rmw
+        
+        # Verify the struct exists in the header
+        if ! grep -q "rmw_service_endpoint_info_s" "/opt/ros/${{ matrix.ros_distribution }}/include/rmw/rmw/service_endpoint_info.h"; then
+          echo "ERROR: rmw_service_endpoint_info_s struct not found in header!"
+          cat "/opt/ros/${{ matrix.ros_distribution }}/include/rmw/rmw/service_endpoint_info.h"
+          exit 1
+        fi
+        echo "Header verification passed"
+        
         cd rclrs/src
         ../generate_bindings.py rcl_wrapper.h ${{ matrix.ros_distribution }} .
+
+    - name: Diagnostic - Show ROS environment
+      run: |
+        echo "=== ROS Version Info ==="
+        dpkg -l | grep ros-${{ matrix.ros_distribution }}-rmw | head -10
+        echo ""
+        echo "=== libclang Version ==="
+        dpkg -l | grep libclang
+        echo ""
+        echo "=== Critical Headers ==="
+        ls -lh /opt/ros/${{ matrix.ros_distribution }}/include/rmw/rmw/service_endpoint_info.h || echo "NOT FOUND"
+        ls -lh /opt/ros/${{ matrix.ros_distribution }}/include/rcl/rcl/graph.h || echo "NOT FOUND"
 
     - name: Submit PR
       run: |
